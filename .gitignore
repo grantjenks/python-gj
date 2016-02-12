@@ -8,8 +8,9 @@
 .coverage
 
 # setup sdist, test and upload directories
-/dist/
-/build/
 /.tox/
+/build/
+/*.egg-info/
+/dist/
 
 .DS_Store
