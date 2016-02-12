@@ -3,3 +3,4 @@ mock
 twine
 wheel
 tox
+Sphinx
