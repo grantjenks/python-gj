@@ -1,3 +1,6 @@
+"Grant Jenks Tools main entry point."
+# pylint: disable=invalid-name
+
 import argparse
 
 from . import release

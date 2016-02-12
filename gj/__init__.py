@@ -1,3 +1,5 @@
+"Grant Jenks tools."
+
 from .packages import release
 
 __title__ = 'gj'

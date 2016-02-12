@@ -1,3 +1,5 @@
+"Packages tools."
+
 from __future__ import print_function
 
 import ftplib
@@ -6,6 +8,7 @@ import glob
 import os
 import os.path as op
 import re
+import shutil
 import subprocess as sp
 import sys
 
@@ -38,41 +41,53 @@ def ftp_upload(ftp, path, reader):
     ftp.storbinary(command, reader)
 
 
+def lookup_name(cwd):
+    "Lookup package name in directory `cwd`."
+
+    dirnames = []
+
+    for _, dirnames, _ in os.walk(cwd):
+        break
+
+    excludes = ['.git', 'build', 'dist', 'env', 'tests']
+
+    for name in dirnames:
+        for exclude in excludes:
+            if name.startswith(exclude):
+                break
+        else:
+            return name
+
+    print('Error: Unknown name.')
+    sys.exit(1)
+
+
+def lookup_version(name):
+    "Lookup version for `name` package."
+
+    with open(op.join(name, '__init__.py')) as reader:
+        lines = reader.readlines()
+
+    for line in lines:
+        match = re.match(r'^__version__ = \'(.*)\'$', line)
+        if match:
+            return match.group(1)
+
+    print('Error: Unknown version.')
+    sys.exit(1)
+
+
 def release(name=None, version=None, pylint=True, tox=True, docs=True):
     "Release package with `name` and `version`."
 
     cwd = os.getcwd()
-
-    if name is None:
-        for _, dirnames, _ in os.walk(cwd):
-            break
-        try:
-            dirnames.remove('docs')
-            assert len(dirnames) == 1
-            name = dirnames[0]
-        except ValueError, AssertionError:
-            print('Error: Unknown name.')
-
-    if version is None:
-        with open(op.join(name, '__init__.py')) as reader:
-            lines = reader.readlines()
-        for line in lines:
-            match = re.match(r'^__version__ = \'(.*)\'$', line)
-            if match:
-                version = match.group(1)
-                break
-        else:
-            print('Error: Unknown version.')
-            sys.exit(1)
-
-    vversion = 'v%s' % version
-
-    if docs:
-        shutil.rmtree(op.join('docs', '_build'), ignore_errors=True)
+    name = name or lookup_name(cwd)
+    version = version or lookup_version(name)
+    version = 'v%s' % version
 
     run('git checkout master')
 
-    if vversion in sp.check_output(['git', 'tag']):
+    if version in sp.check_output(['git', 'tag']):
         print('Error: Version already tagged.')
         sys.exit(1)
 
@@ -89,7 +104,7 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
     if tox:
         run('tox')
 
-    run('git tag -a %s -m %s' % (vversion, vversion))
+    run('git tag -a %s -m %s' % (version, version))
     run('git push')
     run('git push --tags')
     shutil.rmtree('dist', ignore_errors=True)
@@ -98,6 +113,8 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
 
     if not docs:
         return
+
+    shutil.rmtree(op.join('docs', '_build'), ignore_errors=True)
 
     print('gj$ # Building Docs')
 
