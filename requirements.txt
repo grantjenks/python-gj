@@ -2,3 +2,4 @@ nose
 mock
 twine
 wheel
+tox
