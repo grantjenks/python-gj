@@ -49,7 +49,7 @@ def lookup_name(cwd):
     for _, dirnames, _ in os.walk(cwd):
         break
 
-    excludes = ['.git', '.tox', 'build', 'dist', 'env', 'tests']
+    excludes = ['.git', '.tox', 'build', 'dist', 'env', 'tests', 'docs']
 
     for name in dirnames:
         for exclude in excludes:
