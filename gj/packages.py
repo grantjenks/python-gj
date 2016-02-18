@@ -104,6 +104,8 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
     if tox:
         run('tox')
 
+    run('rst-lint README.rst')
+    run('doc8 docs')
     run('git tag -a %s -m %s' % (version, version))
     run('git push')
     run('git push --tags')
