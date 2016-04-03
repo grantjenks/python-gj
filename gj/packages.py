@@ -73,6 +73,41 @@ def lookup_version(name):
     sys.exit(1)
 
 
+def upload_docs(name):
+    "Upload docs for package with `name`."
+
+    print('gj$ # Uploading Docs')
+
+    for _ in range(5):
+        try:
+            ftps = ftplib.FTP_TLS(
+                'grantjenks.com',
+                user='grant',
+                passwd=getpass.getpass()
+            )
+            break
+        except ftplib.error_perm as exception:
+            error = exception
+    else:
+        raise error
+
+    ftps.prot_p()
+
+    base = '/domains/grantjenks.com/docs/%s' % name
+
+    ftp_mkdir(ftps, base)
+
+    chdir(op.join('_build', 'html'))
+
+    for path, dirs, files in os.walk('.'):
+        for directory in dirs:
+            ftp_mkdir(ftps, '/'.join([base, path, directory]))
+
+        for filename in files:
+            with open(op.join(path, filename), 'rb') as reader:
+                ftp_upload(ftps, '/'.join([base, path, filename]), reader)
+
+
 def release(name=None, version=None, pylint=True, tox=True, docs=True):
     "Release package with `name` and `version`."
 
@@ -121,35 +156,4 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
     run('make clean')
     run('make html')
 
-    print('gj$ # Uploading Docs')
-
-    error = None
-
-    for attempt in range(5):
-        try:
-            ftps = ftplib.FTP_TLS(
-                'grantjenks.com',
-                user='grant',
-                passwd=getpass.getpass()
-            )
-            break
-        except ftplib.error_perm as exception:
-            error = exception
-    else:
-        raise error
-
-    ftps.prot_p()
-
-    base = '/domains/grantjenks.com/docs/%s' % name
-
-    ftp_mkdir(ftps, base)
-
-    chdir(op.join('_build', 'html'))
-
-    for path, dirs, files in os.walk('.'):
-        for directory in dirs:
-            ftp_mkdir(ftps, '/'.join([base, path, directory]))
-
-        for filename in files:
-            with open(op.join(path, filename), 'rb') as reader:
-                ftp_upload(ftps, '/'.join([base, path, filename]), reader)
+    upload_docs(name)
