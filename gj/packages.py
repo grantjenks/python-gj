@@ -44,29 +44,25 @@ def ftp_upload(ftp, path, reader):
 def lookup_name(cwd):
     "Lookup package name in directory `cwd`."
 
-    dirnames = []
+    _, dirname = op.split(cwd)
 
-    for _, dirnames, _ in os.walk(cwd):
-        break
+    prefix = 'python-'
 
-    excludes = ['.git', '.tox', 'build', 'dist', 'env', 'tests', 'docs']
+    if dirname.startswith(prefix):
+        dirname = dirname[len(prefix):]
 
-    for name in dirnames:
-        for exclude in excludes:
-            if name.startswith(exclude):
-                break
-        else:
-            return name
-
-    print('Error: Unknown name.')
-    sys.exit(1)
+    return dirname
 
 
 def lookup_version(name):
     "Lookup version for `name` package."
 
-    with open(op.join(name, '__init__.py')) as reader:
-        lines = reader.readlines()
+    try:
+        with open(op.join(name, '__init__.py')) as reader:
+            lines = reader.readlines()
+    except IOError:
+        with open('%s.py' % name) as reader:
+            lines = reader.readlines()
 
     for line in lines:
         match = re.match(r'^__version__ = \'(.*)\'$', line)
@@ -127,11 +123,21 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
 
     print('gj$ # Uploading Docs')
 
-    ftps = ftplib.FTP_TLS(
-        'grantjenks.com',
-        user='grant',
-        passwd=getpass.getpass()
-    )
+    error = None
+
+    for attempt in range(5):
+        try:
+            ftps = ftplib.FTP_TLS(
+                'grantjenks.com',
+                user='grant',
+                passwd=getpass.getpass()
+            )
+            break
+        except ftplib.error_perm as exception:
+            error = exception
+    else:
+        raise error
+
     ftps.prot_p()
 
     base = '/domains/grantjenks.com/docs/%s' % name
