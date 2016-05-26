@@ -3,7 +3,7 @@
 
 import argparse
 
-from . import release
+from . import release, upload_docs
 
 parser = argparse.ArgumentParser(
     'gj',
@@ -19,6 +19,9 @@ parser_release.add_argument('--no-pylint', action='store_true')
 parser_release.add_argument('--no-tox', action='store_true')
 parser_release.add_argument('--no-docs', action='store_true')
 
+parser_upload_docs = subparsers.add_parser('upload-docs', help='upload docs')
+parser_upload_docs.add_argument('name')
+
 args = parser.parse_args()
 
 if args.command == 'release':
@@ -28,4 +31,8 @@ if args.command == 'release':
         pylint=~args.no_pylint,
         tox=~args.no_tox,
         docs=~args.no_docs,
+    )
+elif args.command == 'upload-docs':
+    upload_docs(
+        name=args.name,
     )
