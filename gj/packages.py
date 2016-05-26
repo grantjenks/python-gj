@@ -51,6 +51,8 @@ def lookup_name(cwd):
     if dirname.startswith(prefix):
         dirname = dirname[len(prefix):]
 
+    dirname = dirname.replace('_', '')
+
     return dirname
 
 
