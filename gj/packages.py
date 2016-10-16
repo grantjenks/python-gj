@@ -135,7 +135,7 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
         run('pylint %s' % name)
 
     if tox:
-        run('tox')
+        run('tox --skip-missing-interpreters')
 
     run('rst-lint README.rst')
     run('doc8 docs')
