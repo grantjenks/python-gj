@@ -46,10 +46,12 @@ def lookup_name(cwd):
 
     _, dirname = op.split(cwd)
 
-    prefix = 'python-'
+    prefixes = ['python-', 'python_']
 
-    if dirname.startswith(prefix):
-        dirname = dirname[len(prefix):]
+    for prefix in prefixes:
+        if dirname.startswith(prefix):
+            dirname = dirname[len(prefix):]
+            break
 
     dirname = dirname.replace('_', '')
 
