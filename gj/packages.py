@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-import ftplib
+import paramiko
 import getpass
 import glob
 import os
@@ -25,20 +25,19 @@ def chdir(path):
     os.chdir(path)
 
 
-def ftp_mkdir(ftp, path):
-    "Make directory at `path` using `ftp` connection."
-    print('gj$ # ftp.mkdir', path)
+def sftp_mkdir(sftp, path):
+    "Make directory at `path` using `sftp` connection."
+    print('gj$ # sftp.mkdir', path)
     try:
-        ftp.mkd(path)
-    except ftplib.error_perm:
+        sftp.mkdir(path)
+    except IOError:
         pass
 
 
-def ftp_upload(ftp, path, reader):
-    "Upload binary file `reader` to `path` using `ftp` connection."
-    print('gj$ # ftp.storb', path)
-    command = 'STOR %s' % path
-    ftp.storbinary(command, reader)
+def sftp_upload(sftp, local_path, remote_path):
+    "Upload binary file `reader` to `path` using `sftp` connection."
+    print('gj$ # sftp.put', local_path, remote_path)
+    sftp.put(local_path, remote_path)
 
 
 def lookup_name(cwd):
@@ -82,34 +81,25 @@ def upload_docs(name):
 
     print('gj$ # Uploading Docs')
 
-    for _ in range(5):
-        try:
-            ftps = ftplib.FTP_TLS(
-                'grantjenks.com',
-                user='grant',
-                passwd=getpass.getpass()
-            )
-            break
-        except ftplib.error_perm as exception:
-            error = exception
-    else:
-        raise error
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect('104.198.0.77')
+    sftp = ssh.open_sftp()
 
-    ftps.prot_p()
+    base = '/srv/www/www.grantjenks.com/docs/%s' % name
 
-    base = '/domains/grantjenks.com/docs/%s' % name
-
-    ftp_mkdir(ftps, base)
+    sftp_mkdir(sftp, base)
 
     chdir(op.join('_build', 'html'))
 
     for path, dirs, files in os.walk('.'):
         for directory in dirs:
-            ftp_mkdir(ftps, '/'.join([base, path, directory]))
+            sftp_mkdir(sftp, '/'.join([base, path, directory]))
 
         for filename in files:
-            with open(op.join(path, filename), 'rb') as reader:
-                ftp_upload(ftps, '/'.join([base, path, filename]), reader)
+            local_path = op.join(path, filename)
+            remote_path = '/'.join([base, path, filename])
+            sftp_upload(sftp, local_path, remote_path)
 
 
 def release(name=None, version=None, pylint=True, tox=True, docs=True):
