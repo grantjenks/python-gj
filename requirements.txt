@@ -1,5 +1,6 @@
 nose
 mock
+paramiko
 twine
 wheel
 tox
