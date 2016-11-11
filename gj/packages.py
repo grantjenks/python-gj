@@ -2,8 +2,6 @@
 
 from __future__ import print_function
 
-import paramiko
-import getpass
 import glob
 import os
 import os.path as op
@@ -11,6 +9,8 @@ import re
 import shutil
 import subprocess as sp
 import sys
+
+import paramiko
 
 
 def run(command):
