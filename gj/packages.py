@@ -131,11 +131,21 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
 
     run('rst-lint README.rst')
     run('doc8 docs')
+
     run('git tag -a %s -m %s' % (version, version))
     run('git push')
     run('git push --tags')
+
     shutil.rmtree('dist', ignore_errors=True)
-    run('python setup.py sdist bdist_wheel --universal')
+
+    setup_py = open('setup.py').read()
+
+    if 'Extension(' in setup_py:
+        dist = 'sdist'  # Use source distribution for binary extensions.
+    else:
+        dist = 'sdist bdist_wheel --universal'
+
+    run('python setup.py %s' % dist)
     run('twine upload ' + ' '.join(glob.glob('dist/*')))
 
     if not docs:
