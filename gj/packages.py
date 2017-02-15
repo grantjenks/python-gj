@@ -45,7 +45,7 @@ def lookup_name(cwd):
 
     _, dirname = op.split(cwd)
 
-    prefixes = ['python-', 'python_']
+    prefixes = ['python-', 'python_', 'django-']
 
     for prefix in prefixes:
         if dirname.startswith(prefix):
