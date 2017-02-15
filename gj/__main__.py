@@ -28,9 +28,9 @@ if args.command == 'release':
     release(
         name=args.name,
         version=args.version,
-        pylint=~args.no_pylint,
-        tox=~args.no_tox,
-        docs=~args.no_docs,
+        pylint=not args.no_pylint,
+        tox=not args.no_tox,
+        docs=not args.no_docs,
     )
 elif args.command == 'upload-docs':
     upload_docs(
