@@ -161,3 +161,9 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
     run('make html')
 
     upload_docs(name)
+
+    chdir(op.join(cwd, 'docs'))
+    run('make clean')
+
+    chdir(cwd)
+    run('rm -r build')
