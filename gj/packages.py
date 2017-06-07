@@ -50,11 +50,10 @@ def lookup_name(cwd):
     for prefix in prefixes:
         if dirname.startswith(prefix):
             dirname = dirname[len(prefix):]
-            break
+            return dirname.replace('_', '')
 
-    dirname = dirname.replace('_', '')
-
-    return dirname
+    if '-python-' in dirname:
+        return dirname.replace('-python-', '')
 
 
 def lookup_version(name):
@@ -112,7 +111,7 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
 
     run('git checkout master')
 
-    if version in sp.check_output(['git', 'tag']):
+    if version in sp.check_output(['git', 'tag']).decode('utf-8'):
         print('Error: Version already tagged.')
         sys.exit(1)
 
