@@ -128,7 +128,7 @@ def release(name=None, version=None, pylint=True, tox=True, docs=True):
     if tox:
         run('tox --skip-missing-interpreters')
 
-    run('rst-lint README.rst')
+    run('rstcheck --report warning README.rst')
     run('doc8 docs')
 
     run('git tag -a %s -m %s' % (version, version))
