@@ -54,6 +54,8 @@ def read(clear=False):
         if 'DateLastViewed' not in item['ReadingList']
     ]
 
+    reading_list.sort(key=lambda item: item['ReadingList']['DateAdded'])
+
     for item in reading_list:
         url = item['URLString']
 
