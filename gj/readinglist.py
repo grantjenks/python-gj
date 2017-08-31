@@ -6,6 +6,7 @@ from __future__ import print_function
 
 
 def lookup(data, *args):
+    "Return result of sequence of lookups on data."
     for arg in args:
         if isinstance(arg, int):
             data = data[arg]
@@ -23,8 +24,9 @@ def lookup(data, *args):
 
 
 def read(clear=False):
-    import biplist
-    import diskcache
+    "Read item from reading list."
+    import biplist  # pylint: disable=import-error
+    import diskcache  # pylint: disable=import-error
     import os.path
     import webbrowser
 
