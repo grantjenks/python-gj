@@ -4,11 +4,6 @@
 
 from __future__ import print_function
 
-import biplist
-import diskcache
-import os.path
-import webbrowser
-
 
 def lookup(data, *args):
     for arg in args:
@@ -28,6 +23,11 @@ def lookup(data, *args):
 
 
 def read(clear=False):
+    import biplist
+    import diskcache
+    import os.path
+    import webbrowser
+
     home_dir = os.path.expanduser('~')
     gj_dir = os.path.join(home_dir, '.gj')
     cache_dir = os.path.join(gj_dir, 'diskcache')
