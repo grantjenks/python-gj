@@ -3,7 +3,7 @@
 
 import argparse
 
-from . import release, upload_docs
+from . import packages, readinglist
 
 parser = argparse.ArgumentParser(
     'gj',
@@ -22,10 +22,16 @@ parser_release.add_argument('--no-docs', action='store_true')
 parser_upload_docs = subparsers.add_parser('upload-docs', help='upload docs')
 parser_upload_docs.add_argument('name')
 
+parser_reading_list = subparsers.add_parser(
+    'reading-list',
+    help='reading list'
+)
+parser_reading_list.add_argument('-c', '--clear', action='store_true')
+
 args = parser.parse_args()
 
 if args.command == 'release':
-    release(
+    packages.release(
         name=args.name,
         version=args.version,
         pylint=not args.no_pylint,
@@ -33,6 +39,10 @@ if args.command == 'release':
         docs=not args.no_docs,
     )
 elif args.command == 'upload-docs':
-    upload_docs(
+    packages.upload_docs(
         name=args.name,
+    )
+elif args.command == 'reading-list':
+    readinglist.read(
+        clear=args.clear,
     )
