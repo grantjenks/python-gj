@@ -13,6 +13,14 @@ Features
 - Developed on Python 2.7
 - Tested on CPython 2.7
 
+
+Todo
+----
+
+- Add "trash" command. Use ``send2trash`` module.
+- Add "watch" command. Use ``watchdog`` module.
+
+
 Quickstart
 ----------
 
@@ -26,6 +34,7 @@ function::
   >>> import gj
   >>> help(gj)
 
+
 Reference and Indices
 ---------------------
 
@@ -38,6 +47,7 @@ Reference and Indices
 .. _`GJ at PyPI`: https://pypi.python.org/pypi/gj/
 .. _`GJ at GitHub`: https://github.com/grantjenks/python-gj/
 .. _`GJ Issue Tracker`: https://github.com/grantjenks/python-gj/issues/
+
 
 License
 -------
