@@ -75,7 +75,7 @@ def lookup_version(name):
     sys.exit(1)
 
 
-def upload_docs(name):
+def upload_docs_v0(name):
     "Upload docs for package with `name`."
 
     print('gj$ # Uploading Docs')
@@ -99,6 +99,13 @@ def upload_docs(name):
             local_path = op.join(path, filename)
             remote_path = '/'.join([base, path, filename])
             sftp_upload(sftp, local_path, remote_path)
+
+
+def upload_docs(name):
+    "Upload docs for package with `name`."
+    base = '/srv/www/www.grantjenks.com/docs/%s' % name
+    rsync = 'rsync -az --stats --delete _build/html/ magnesium:%s' % base
+    run(rsync)
 
 
 def release(name=None, version=None, pylint=True, tox=True, docs=True):
