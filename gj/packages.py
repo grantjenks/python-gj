@@ -10,8 +10,6 @@ import shutil
 import subprocess as sp
 import sys
 
-import paramiko
-
 
 def run(command):
     "Run `command` and display output."
@@ -77,9 +75,9 @@ def lookup_version(name):
 
 def upload_docs_v0(name):
     "Upload docs for package with `name`."
-
     print('gj$ # Uploading Docs')
 
+    import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect('104.198.0.77')
