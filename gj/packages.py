@@ -53,6 +53,8 @@ def lookup_name(cwd):
     if '-python-' in dirname:
         return dirname.replace('-python-', '')
 
+    return dirname.replace('_', '')
+
 
 def lookup_version(name):
     "Lookup version for `name` package."
