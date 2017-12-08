@@ -106,12 +106,11 @@ def upload_docs(name):
     run(rsync)
 
 
-def release(name=None, version=None, pylint=True, tox=True, docs=True):
-    "Release package with `name` and `version`."
-
+def release(pylint=True, tox=True, docs=True):
+    "Release package"
     cwd = os.getcwd()
-    name = name or lookup_name(cwd)
-    version = version or lookup_version(name)
+    name = lookup_name(cwd)
+    version = lookup_version(name)
     version = 'v%s' % version
 
     run('git checkout master')

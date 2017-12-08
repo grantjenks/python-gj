@@ -1,6 +1,7 @@
 "Grant Jenks tools."
 
 from .packages import release, upload_docs
+from .utils import watch
 
 __title__ = 'gj'
 __version__ = '0.2.5'
