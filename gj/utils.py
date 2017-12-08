@@ -1,3 +1,7 @@
+"""Miscellaneous Utilities
+
+"""
+
 from __future__ import print_function
 
 import logging
@@ -5,7 +9,7 @@ import os
 import subprocess
 import time
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 def watch(command, filenames):
     """Run `command` when any of `filenames` are modified.
