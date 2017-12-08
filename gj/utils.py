@@ -9,7 +9,7 @@ import os
 import subprocess
 import time
 
-log = logging.getLogger(__name__)  # pylint: disable=invalid-name
+log = logging.getLogger(__name__)
 
 
 def watch(command, filenames):
