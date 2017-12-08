@@ -11,6 +11,7 @@ import time
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
+
 def watch(command, filenames):
     """Run `command` when any of `filenames` are modified.
 
