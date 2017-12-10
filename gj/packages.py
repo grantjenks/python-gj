@@ -43,7 +43,7 @@ def lookup_name(cwd):
 
     _, dirname = op.split(cwd)
 
-    prefixes = ['python-', 'python_', 'django-']
+    prefixes = ['python-', 'python_', 'django-', 'sphinx-']
 
     for prefix in prefixes:
         if dirname.startswith(prefix):
@@ -131,11 +131,11 @@ def release(pylint=True, tox=True, docs=True):
     if pylint:
         run('pylint %s' % name)
 
-    if tox:
-        run('tox --skip-missing-interpreters')
-
     run('rstcheck --report warning README.rst')
     run('doc8 docs')
+
+    if tox:
+        run('tox --skip-missing-interpreters')
 
     run('git tag -a %s -m %s' % (version, version))
     run('git push')
