@@ -103,7 +103,7 @@ def upload_docs_v0(name):
 
 def upload_docs(name):
     "Upload docs for package with `name`."
-    base = '/srv/www/www.grantjenks.com/docs/%s' % name
+    base = '/srv/www/www.grantjenks.com/public/docs/%s' % name
     rsync = 'rsync -azP --stats --delete _build/html/ magnesium:%s' % base
     run(rsync)
 
