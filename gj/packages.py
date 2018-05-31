@@ -131,6 +131,10 @@ def release(pylint=True, tox=True, docs=True):
     if pylint:
         run('pylint %s' % name)
 
+    chdir(op.join(cwd, 'docs'))
+    run('make clean')
+
+    chdir(cwd)
     run('rstcheck --report warning README.rst')
     run('doc8 docs')
 
