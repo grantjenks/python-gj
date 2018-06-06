@@ -5,7 +5,7 @@
 from __future__ import print_function
 
 import functools
-import glob
+import glob as globlib
 import logging
 import os
 import subprocess
@@ -20,13 +20,12 @@ def watch(command, paths):
 
     """
     if sys.hexversion < 0x03000000:
-        from glob import iglob as glob
+        glob = globlib.iglob
         if any('**' in path for path in paths):
             message = 'recursive glob support not implemented in Python 2'
             raise NotImplementedError(message)
     else:
-        from glob import iglob
-        glob = functools.partial(iglob, recursive=True)
+        glob = functools.partial(globlib.iglob, recursive=True)
 
     mtimes = {}
 
