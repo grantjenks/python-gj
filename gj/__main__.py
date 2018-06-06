@@ -31,10 +31,10 @@ parser_reading_list.add_argument('-c', '--clear', action='store_true')
 
 parser_watch = subparsers.add_parser(
     'watch',
-    help='watch files for changes and run command',
+    help='watch paths for changes and run command',
 )
 parser_watch.add_argument('command')
-parser_watch.add_argument('filename', nargs='+')
+parser_watch.add_argument('path', nargs='+')
 
 args = parser.parse_args()
 
@@ -61,8 +61,9 @@ elif args.subcommand == 'reading-list':
     readinglist.read(
         clear=args.clear,
     )
-elif args.subcommand == 'watch':
+else:
+    assert args.subcommand == 'watch'
     utils.watch(
-        command=args.command.split(),
-        filenames=args.filename,
+        command=args.command,
+        paths=args.path,
     )
