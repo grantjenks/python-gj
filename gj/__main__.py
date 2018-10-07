@@ -4,7 +4,7 @@
 import argparse
 import logging
 
-from . import packages, readinglist, utils
+from . import backups, packages, readinglist, utils
 
 parser = argparse.ArgumentParser(
     'gj',
@@ -36,6 +36,11 @@ parser_watch = subparsers.add_parser(
 parser_watch.add_argument('command')
 parser_watch.add_argument('path', nargs='+')
 
+parser_backup_google_calendar = subparsers.add_parser(
+    'backup-google-calendar',
+    help='backup Google calendar',
+)
+
 args = parser.parse_args()
 
 if args.debug:
@@ -61,9 +66,11 @@ elif args.subcommand == 'reading-list':
     readinglist.read(
         clear=args.clear,
     )
-else:
-    assert args.subcommand == 'watch'
+elif args.subcommand == 'watch':
     utils.watch(
         command=args.command,
         paths=args.path,
     )
+else:
+    assert args.subcommand == 'backup-google-calendar'
+    backups.backup_google_calendar()
