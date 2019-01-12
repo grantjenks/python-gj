@@ -48,7 +48,7 @@ def lookup_name(cwd):
     for prefix in prefixes:
         if dirname.startswith(prefix):
             dirname = dirname[len(prefix):]
-            return dirname.replace('_', '')
+            return dirname.replace('_', '').replace('-', '')
 
     if '-python-' in dirname:
         return dirname.replace('-python-', '')
