@@ -14,17 +14,18 @@ def backup_google_calendar():
 
     """
     import browsercookie
-    # TODO: Consider using pycookiecheat instead of browsercookie.
+    # Consider using pycookiecheat instead of browsercookie for Python 3
+    # support.
     import requests
 
-    cj = browsercookie.chrome()
+    cookies = browsercookie.chrome()
     url = 'https://calendar.google.com/calendar/exporticalzip'
     home_dir = os.environ['HOME']
     filename = 'google-calendar.zip'
     filepath = os.path.join(home_dir, filename)
 
     log.info('Get %s', url)
-    resp = requests.get(url, cookies=cj)
+    resp = requests.get(url, cookies=cookies)
 
     log.info('Save %s', filepath)
     with open(filepath, 'wb') as writer:
