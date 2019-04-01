@@ -53,6 +53,9 @@ def lookup_name(cwd):
     if '-python-' in dirname:
         return dirname.replace('-python-', '')
 
+    if dirname.endswith('-lang'):
+        return dirname.replace('-lang', '')
+
     return dirname.replace('_', '')
 
 
