@@ -10,6 +10,7 @@ Seems like "less" should be able to do this but I couldn't see how :(
   - time how long command/line takes
 
 """
+# pylint: disable=line-too-long
 
 # Test Cases for Long Line Handling:
 #
@@ -32,12 +33,12 @@ import collections
 import itertools
 import shutil
 import sys
-import time
 
 import colorama
 
 
 def chunker(reader, width):
+    "Yield chunks from lines in reader with given width."
     for line in reader:
         line = line[:-1]  # Chop off newline character.
 
@@ -50,6 +51,7 @@ def chunker(reader, width):
 
 
 def main():
+    "Main entry-point for following streams."
     parser = argparse.ArgumentParser()
     parser.add_argument('--limit', type=int, default=10)
     parser.add_argument('--width', type=int, default=None)

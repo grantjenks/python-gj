@@ -10,8 +10,7 @@ Features
 --------
 
 - Pure-Python
-- Developed on Python 2.7
-- Tested on CPython 2.7
+- Miscellaneous tools
 
 
 Todo
@@ -52,7 +51,7 @@ Reference and Indices
 License
 -------
 
-Copyright 2016 Grant Jenks
+Copyright 2016-2019 Grant Jenks
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License.  You may obtain a copy of the

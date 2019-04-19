@@ -1,7 +1,12 @@
-nose
+Sphinx
+browsercookie
+colorama
+doc8
 mock
+nose
+paramiko
+pylint
+rstcheck
+tox
 twine
 wheel
-tox
-Sphinx
-pylint
