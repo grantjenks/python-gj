@@ -142,7 +142,7 @@ def release(pylint=True, tox=True, docs=True):
     run('doc8 docs')
 
     if tox:
-        run('tox --skip-missing-interpreters')
+        run('python -m tox --skip-missing-interpreters')
 
     run('git tag -a %s -m %s' % (version, version))
     run('git push')
