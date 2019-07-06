@@ -56,12 +56,14 @@ def lookup_name(cwd):
     if dirname.endswith('-lang'):
         return dirname.replace('-lang', '')
 
+    if dirname == 'personalized-opportunities':
+        return 'jwpo'
+
     return dirname.replace('_', '')
 
 
 def lookup_version(name):
     "Lookup version for `name` package."
-
     try:
         with open(op.join(name, '__init__.py')) as reader:
             lines = reader.readlines()
