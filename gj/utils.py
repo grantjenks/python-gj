@@ -62,4 +62,4 @@ def watch(command, paths):
             time.sleep(1)
     except KeyboardInterrupt:
         print()
-        exit(0)
+        raise SystemExit(0)
