@@ -41,7 +41,7 @@ def sftp_upload(sftp, local_path, remote_path):
 def lookup_name(cwd):
     "Lookup package name in directory `cwd`."
 
-    _, dirname = op.split(cwd)
+    path, dirname = op.split(cwd)
 
     prefixes = ['python-', 'python_', 'django-', 'sphinx-']
 
@@ -58,6 +58,10 @@ def lookup_name(cwd):
 
     if dirname == 'personalized-opportunities':
         return 'jwpo'
+
+    if dirname == 'cli':
+        _, parentdir = op.split(path)
+        return parentdir
 
     return dirname.replace('_', '')
 
