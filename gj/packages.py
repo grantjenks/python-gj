@@ -160,8 +160,10 @@ def release(pylint=True, tox=True, docs=True):
 
     if 'Extension(' in setup_py:
         dist = 'sdist'  # Use source distribution for binary extensions.
-    else:
+    elif 'Python :: 2' in setup_py:
         dist = 'sdist bdist_wheel --universal'
+    else:
+        dist = 'sdist bdist_wheel'
 
     run('python setup.py %s' % dist)
     run('twine upload ' + ' '.join(glob.glob('dist/*')))
